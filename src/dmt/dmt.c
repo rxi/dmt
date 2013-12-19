@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "dmt.h"
 
 typedef struct dmt_node_t {
   struct dmt_node_t *prev, *next;

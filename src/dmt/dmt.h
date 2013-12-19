@@ -10,7 +10,7 @@
 
 void  *_dmt_alloc(size_t, const char*, unsigned, int);
 void  *_dmt_realloc(void*, size_t, const char*, unsigned);
-void   _dmt_free(void*, char*, unsigned);
+void   _dmt_free(void*, const char*, unsigned);
 
 void    dmt_dump(FILE*);
 size_t  dmt_usage(void);
