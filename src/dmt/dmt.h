@@ -1,5 +1,5 @@
-#ifndef HMT_H_
-#define HMT_H_
+#ifndef DMT_H_
+#define DMT_H_
 
 #include <stdio.h>
 
