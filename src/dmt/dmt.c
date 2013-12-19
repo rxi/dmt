@@ -55,6 +55,8 @@ void *_dmt_alloc(size_t sz, const char *file, unsigned line, int zeroset) {
 void *_dmt_realloc(void *ptr, size_t sz, const char *file, unsigned line) {
   dmt_node_t *node = (dmt_node_t*)((char*)ptr - sizeof(*node));
 
+  if (ptr == NULL) return _dmt_alloc(sz, file, line, 0);
+
   if (!_dmt_has_node(node)) {
     printf("Bad realloc: %p %s, line %u\n", ptr, file, line);
     abort();
@@ -72,6 +74,8 @@ void *_dmt_realloc(void *ptr, size_t sz, const char *file, unsigned line) {
 
 void _dmt_free(void *ptr, const char *file, unsigned line) {
   dmt_node_t *node = (dmt_node_t*)((char*)ptr - sizeof(*node));
+
+  if (ptr == NULL) return;
 
   if (!_dmt_has_node(node)) {
     printf("Bad free: %p %s, line %u\n", ptr, file, line);
