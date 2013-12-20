@@ -57,10 +57,12 @@ void *_dmt_realloc(void *ptr, size_t sz, const char *file, unsigned line) {
 
   if (ptr == NULL) return _dmt_alloc(sz, 0, file, line);
 
+#ifndef DMT_UNSAFE
   if (!_dmt_has_node(node)) {
     printf("Bad realloc: %p %s, line %u\n", ptr, file, line);
     abort();
   }
+#endif
 
   node = realloc(node, sizeof(*node) + sz);
   node->size = sz;
@@ -77,10 +79,12 @@ void _dmt_free(void *ptr, const char *file, unsigned line) {
 
   if (ptr == NULL) return;
 
+#ifndef DMT_UNSAFE
   if (!_dmt_has_node(node)) {
     printf("Bad free: %p %s, line %u\n", ptr, file, line);
     abort();
   }
+#endif
 
   if (node->prev == NULL) {
     dmt_head = node->next;
