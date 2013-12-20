@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2013, rxi
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the MIT license. See LICENSE for details.
+ */
+
 #ifndef DMT_H_
 #define DMT_H_
 
