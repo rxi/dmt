@@ -62,7 +62,7 @@ void *_dmt_realloc(void *ptr, size_t sz, const char *file, unsigned line) {
     abort();
   }
 
-  node = realloc(node, sz);
+  node = realloc(node, sizeof(*node) + sz);
   node->size = sz;
   if (node->prev) node->prev->next = node;
   if (node->next) node->next->prev = node;
