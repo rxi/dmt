@@ -13,6 +13,7 @@ int main(void) {
   a = dmt_realloc(a, 128);
 
   printf("Current memory usage: %u bytes\n", dmt_usage());
+  printf("Size of 'a' variable's allocation: %u bytes\n", dmt_size(a));
 
   dmt_free(c);
 

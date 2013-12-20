@@ -121,6 +121,21 @@ void dmt_dump(FILE *fp) {
 
 
 
+size_t _dmt_size(void *ptr, const char* file, unsigned line) {
+  dmt_node_t *node = (dmt_node_t*)((char*)ptr - sizeof(*node));
+
+#ifndef DMT_UNSAFE
+  if (!_dmt_has_node(node)) {
+    printf("Bad pointer: %p %s, line %u\n", ptr, file, line);
+    abort();
+  }
+#endif
+
+  return node->size;
+}
+
+
+
 size_t dmt_usage(void) {
   dmt_node_t *node = dmt_head;
   size_t total = 0;
