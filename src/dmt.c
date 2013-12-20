@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#undef DMT_OVERRIDE
 #include "dmt.h"
+
 
 typedef struct dmt_node_t {
   struct dmt_node_t *prev, *next;
