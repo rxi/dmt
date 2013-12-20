@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "dmt/dmt.h"
+#include "dmt.h"
 
 int main(void) {
 
