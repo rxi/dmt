@@ -88,14 +88,9 @@ void _dmt_free(void *ptr, const char *file, unsigned line) {
   }
 #endif
 
-  if (node->prev == NULL) {
-    dmt_head = node->next;
-  } else {
-    node->prev->next = node->next;
-    if (node->next) {
-      node->next->prev = node->prev;
-    }
-  }
+  if (node == dmt_head) dmt_head = node->next;
+  if (node->prev) node->prev->next = node->next;
+  if (node->next) node->next->prev = node->prev;
 
   free(node);
 }
