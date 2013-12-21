@@ -49,7 +49,7 @@ void *_dmt_alloc(size_t sz, int zeroset, const char *file, unsigned line) {
 
   if (node == NULL) {
 #ifdef DMT_ABORT_NULL
-    printf("Couldn't allocate: %s, line %u\n", file, line);
+    fprintf(stderr, "Couldn't allocate: %s, line %u\n", file, line);
     abort();
 #else
     return NULL;
@@ -78,7 +78,7 @@ void *_dmt_realloc(void *ptr, size_t sz, const char *file, unsigned line) {
 
 #ifndef DMT_UNSAFE
   if (!_dmt_has_node(node)) {
-    printf("Bad realloc: %p %s, line %u\n", ptr, file, line);
+    fprintf(stderr, "Bad realloc: %p %s, line %u\n", ptr, file, line);
     abort();
   }
 #endif
@@ -87,7 +87,7 @@ void *_dmt_realloc(void *ptr, size_t sz, const char *file, unsigned line) {
 
   if (node == NULL) {
 #ifdef DMT_ABORT_NULL
-    printf("Couldn't reallocate: %s, line %u\n", file, line);
+    fprintf(stderr, "Couldn't reallocate: %s, line %u\n", file, line);
     abort();
 #else
     return NULL;
@@ -110,7 +110,7 @@ void _dmt_free(void *ptr, const char *file, unsigned line) {
 
 #ifndef DMT_UNSAFE
   if (!_dmt_has_node(node)) {
-    printf("Bad free: %p %s, line %u\n", ptr, file, line);
+    fprintf(stderr, "Bad free: %p %s, line %u\n", ptr, file, line);
     abort();
   }
 #endif
@@ -153,7 +153,7 @@ size_t _dmt_size(void *ptr, const char* file, unsigned line) {
 
 #ifndef DMT_UNSAFE
   if (!_dmt_has_node(node)) {
-    printf("Bad pointer: %p %s, line %u\n", ptr, file, line);
+    fprintf(stderr, "Bad pointer: %p %s, line %u\n", ptr, file, line);
     abort();
   }
 #endif
