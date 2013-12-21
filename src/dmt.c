@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#undef DMT_OVERRIDE
 #include "dmt.h"
 
 
