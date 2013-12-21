@@ -48,7 +48,7 @@ void *_dmt_alloc(size_t sz, int zeroset, const char *file, unsigned line) {
   }
 
   if (node == NULL) {
-#ifdef DMT_ABORTNULL
+#ifdef DMT_ABORT_NULL
     printf("Couldn't allocate: %s, line %u\n", file, line);
     abort();
 #else
@@ -86,7 +86,7 @@ void *_dmt_realloc(void *ptr, size_t sz, const char *file, unsigned line) {
   node = realloc(node, sizeof(*node) + sz);
 
   if (node == NULL) {
-#ifdef DMT_ABORTNULL
+#ifdef DMT_ABORT_NULL
     printf("Couldn't reallocate: %s, line %u\n", file, line);
     abort();
 #else
