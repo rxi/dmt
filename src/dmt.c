@@ -41,8 +41,10 @@ void *_dmt_alloc(size_t sz, int zeroset, const char *file, unsigned line) {
   
   if (zeroset) {
     node = calloc(sizeof(*node) + sz, 1);
+    if (node == NULL) return NULL;
   } else {
     node = malloc(sizeof(*node) + sz);
+    if (node == NULL) return NULL;
     memset(node, 0, sizeof(*node));
   }
 
@@ -74,6 +76,9 @@ void *_dmt_realloc(void *ptr, size_t sz, const char *file, unsigned line) {
 #endif
 
   node = realloc(node, sizeof(*node) + sz);
+
+  if (node == NULL) return NULL;
+
   node->size = sz;
   if (node->prev) node->prev->next = node;
   if (node->next) node->next->prev = node;
