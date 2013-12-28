@@ -73,6 +73,7 @@ void *_dmt_alloc(size_t sz, int zeroset, const char *file, unsigned line) {
 
 void *_dmt_realloc(void *ptr, size_t sz, const char *file, unsigned line) {
   dmt_node_t *node = (dmt_node_t*)((char*)ptr - sizeof(*node));
+  dmt_node_t *old_node = node;
 
   if (ptr == NULL) return _dmt_alloc(sz, 0, file, line);
 
@@ -95,6 +96,7 @@ void *_dmt_realloc(void *ptr, size_t sz, const char *file, unsigned line) {
   }
 
   node->size = sz;
+  if (dmt_head == old_node) dmt_head = node;
   if (node->prev) node->prev->next = node;
   if (node->next) node->next->prev = node;
 
