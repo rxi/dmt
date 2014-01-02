@@ -23,5 +23,6 @@ size_t  _dmt_size(void*, const char*, unsigned);
 
 void    dmt_dump(FILE*);
 size_t  dmt_usage(void);
+int     dmt_has(void *ptr);
 
 #endif

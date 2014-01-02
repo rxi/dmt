@@ -176,3 +176,10 @@ size_t dmt_usage(void) {
 
   return total;
 }
+
+
+
+int dmt_has(void *ptr) {
+  dmt_node_t *node = (dmt_node_t*)((char*)ptr - sizeof(*node));
+  return _dmt_has_node(node);
+}
