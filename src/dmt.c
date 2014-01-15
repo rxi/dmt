@@ -46,6 +46,17 @@ int _dmt_has_node(dmt_node_t *n) {
 
 
 
+void _dmt_abort(void) {
+#ifdef DMT_STACK_TRACE
+  void *array[DMT_STACK_TRACE_MAX];
+  size_t sz = backtrace(array, DMT_STACK_TRACE_MAX);
+  backtrace_symbols_fd(array, sz, fileno(stderr));
+#endif
+  abort();
+}
+
+
+
 void *_dmt_alloc(size_t sz, int zeroset, const char *file, unsigned line) {
   dmt_node_t *node = NULL;
   
@@ -61,7 +72,7 @@ void *_dmt_alloc(size_t sz, int zeroset, const char *file, unsigned line) {
   if (node == NULL) {
 #ifdef DMT_ABORT_NULL
     fprintf(stderr, "Couldn't allocate: %s, line %u\n", file, line);
-    abort();
+    _dmt_abort();
 #else
     return NULL;
 #endif
@@ -95,7 +106,7 @@ void *_dmt_realloc(void *ptr, size_t sz, const char *file, unsigned line) {
 #ifndef DMT_UNSAFE
   if (!_dmt_has_node(node)) {
     fprintf(stderr, "Bad realloc: %p %s, line %u\n", ptr, file, line);
-    abort();
+    _dmt_abort();
   }
 #endif
 
@@ -104,7 +115,7 @@ void *_dmt_realloc(void *ptr, size_t sz, const char *file, unsigned line) {
   if (node == NULL) {
 #ifdef DMT_ABORT_NULL
     fprintf(stderr, "Couldn't reallocate: %s, line %u\n", file, line);
-    abort();
+    _dmt_abort();
 #else
     return NULL;
 #endif
@@ -128,7 +139,7 @@ void _dmt_free(void *ptr, const char *file, unsigned line) {
 #ifndef DMT_UNSAFE
   if (!_dmt_has_node(node)) {
     fprintf(stderr, "Bad free: %p %s, line %u\n", ptr, file, line);
-    abort();
+    _dmt_abort();
   }
 #endif
 
@@ -172,7 +183,7 @@ size_t _dmt_size(void *ptr, const char* file, unsigned line) {
 #ifndef DMT_UNSAFE
   if (!_dmt_has_node(node)) {
     fprintf(stderr, "Bad pointer: %p %s, line %u\n", ptr, file, line);
-    abort();
+    _dmt_abort();
   }
 #endif
 
