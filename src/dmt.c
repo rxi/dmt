@@ -11,12 +11,23 @@
 
 #include "dmt.h"
 
+#ifdef DMT_STACK_TRACE
+#include <execinfo.h>
+#ifndef DMT_STACK_TRACE_MAX
+#define DMT_STACK_TRACE_MAX 32
+#endif
+#endif
+
 
 typedef struct dmt_node_t {
   struct dmt_node_t *prev, *next;
   const char *file;
   size_t line;
   size_t size;
+#ifdef DMT_STACK_TRACE
+  void  *stacktrace[DMT_STACK_TRACE_MAX];
+  size_t stacktrace_sz;
+#endif
 } dmt_node_t;
 
 
@@ -59,6 +70,10 @@ void *_dmt_alloc(size_t sz, int zeroset, const char *file, unsigned line) {
   node->line = line;
   node->file = file;
   node->size = sz;
+
+#ifdef DMT_STACK_TRACE
+  node->stacktrace_sz = backtrace(node->stacktrace, DMT_STACK_TRACE_MAX);
+#endif
 
   if (dmt_head) {
     dmt_head->prev = node;
@@ -133,13 +148,14 @@ void dmt_dump(FILE *fp) {
   if (!fp) fp = stdout;
 
   while (node != NULL) {
-    fprintf(
-      fp, 
-      "Unfreed: %p %s, line %u (%u bytes)\n", 
-      (char*)node + sizeof(*node), 
-      node->file, 
-      node->line,
-      node->size);
+    fprintf(fp, "Unfreed: %p %s, line %u (%u bytes)\n", 
+            (char*)node + sizeof(*node), 
+            node->file, node->line, node->size);
+
+#ifdef DMT_STACK_TRACE
+    backtrace_symbols_fd(node->stacktrace, node->stacktrace_sz, fileno(fp));
+    fprintf(fp, "\n");
+#endif
 
     total += node->size;
     node = node->next;
