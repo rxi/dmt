@@ -159,9 +159,9 @@ void dmt_dump(FILE *fp) {
   if (!fp) fp = stdout;
 
   while (node != NULL) {
-    fprintf(fp, "Unfreed: %p %s, line %u (%u bytes)\n", 
-            (char*)node + sizeof(*node), 
-            node->file, node->line, node->size);
+    fprintf(fp, "Unfreed: %p %s, line %lu (%lu bytes)\n", 
+            (char*)node + sizeof(*node), node->file,
+            (unsigned long)node->line, (unsigned long)node->size);
 
 #ifdef DMT_STACK_TRACE
     backtrace_symbols_fd(node->stacktrace, node->stacktrace_sz, fileno(fp));
@@ -172,7 +172,7 @@ void dmt_dump(FILE *fp) {
     node = node->next;
   }
 
-  fprintf(fp, "Total unfreed: %u bytes\n", total);
+  fprintf(fp, "Total unfreed: %lu bytes\n", (unsigned long)total);
 }
 
 
